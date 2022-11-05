@@ -164,7 +164,6 @@
         }
         $this.text(text)
         $this.attr("href", "mailto:" + value)
-        console.log(this, $this, value, type)
 
     })
 
