@@ -7,7 +7,7 @@
             '<small class="float-end text-muted">__PRICE__€</small>'+
             '<span class="name">__TIITLE__</span>'+
           '</h5>'+
-          '<p class="card-text small text-muted"></p>'+
+          '<p class="card-text small text-muted">__DESC__</p>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -137,11 +137,13 @@
         return cardTpl.
             replaceAll('__TIITLE__', data.title).
             replaceAll('__KIND__', data.kind).
-            replaceAll('__INDEX__', data.kind).
+            replaceAll('__INDEX__', index).
+            replaceAll('__DESC__', data.description).
             replaceAll('__PRICE__', data.price);
     }
     function loadMenu(){
         $.get('/res/data.json', data => {
+            console.log(data)
             data.dishes.forEach((item, index) => {
                 $("#menu").append(getDishCard(item, index))
             });
@@ -159,7 +161,6 @@
         if (!textenc){
             text = value
         } else {
-            console.log(textenc, "=".repeat(parseInt($this.attr('data-text-mode') || 0)))
             text = atob(textenc + "=".repeat(parseInt($this.attr('data-text-mode') || 0)))
         }
         $this.text(text)
