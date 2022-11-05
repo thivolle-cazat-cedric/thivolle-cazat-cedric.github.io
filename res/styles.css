@@ -1,0 +1,27 @@
+body {
+    padding-top: 55px;
+}
+
+#result img {
+    max-width: 100%;
+}
+
+.card input[type="number"] {
+    width: 25%;
+}
+
+.header {
+    background: url("./imgs/header.jpg") no-repeat;
+    background-position: 0 0, center;
+    background-size: 100% auto;
+    /*height: 600px;*/
+    width: 100%;
+    padding: 4em;
+}
+.header .row  section {
+    background: rgba(255, 255, 255, .5);
+}
+
+footer {
+    border-top: solid 1px #fff;
+}
