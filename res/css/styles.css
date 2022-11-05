@@ -11,7 +11,7 @@ body {
 }
 
 .header {
-    background: url("./imgs/header.jpg") no-repeat;
+    background: url("../imgs/header.jpg") no-repeat;
     background-position: 0 0, center;
     background-size: 100% auto;
     /*height: 600px;*/
