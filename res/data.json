@@ -1,0 +1,13 @@
+{
+    "dishes": [{
+        "title": "Panini - Jambon",
+        "description": "Some quick example text to build on the card title and make up the bulk of the card's content.",
+        "kind": "panini",
+        "price": "7,5"
+    }, {
+        "title": "Panini - Savoyard",
+        "description": "Ingrédients: Roblochon, Tomate, Lardons, Reblochon, Pomme de terre, Crème fraîche",
+        "kind": "panini",
+        "price": "7,5"
+    }]
+}

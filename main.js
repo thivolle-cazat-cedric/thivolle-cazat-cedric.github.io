@@ -1,5 +1,17 @@
 (function(){
-    console.log("couou")
+    var cardTpl = '<div class="col-xs-12 col-md-6">' +
+      '<div class="card" name="__KIND__-__INDEX__">'+
+        '<div class="card-body">'+
+          '<h5 class="card-title">'+
+            '<input name="__KIND__-__INDEX__" type="number" class="form-control d-inline-block me-4" placeholder=0 min=0>'+
+            '<small class="float-end text-muted">__PRICE__€</small>'+
+            '<span class="name">__TIITLE__</span>'+
+          '</h5>'+
+          '<p class="card-text small text-muted"></p>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+
     var inputsChanged = {};
     var total_pizza = 0
 
@@ -108,19 +120,36 @@
         var order = $("ul#order");
         order.html('');
         total_pizza = 0
-        console.log('coucou', order)
         $('#menu .card').each( (index, elt) => {
             var num = $(elt).find('input').val()
-            var name = $(elt).find('.card-title').text().trim()
+            var name = $(elt).find('.card-title .name').text().trim()
             if (num > 0){
                 order.append(`<li>${num} X ${name}</li>`)
                 total_pizza += parseInt(num)
             }
         })
         $('input[name=nbr]').val(total_pizza)
-        console.log(total_pizza, getFormData(), canOpenWhatsapp())
     }
 
-    $("#menu .card input").change(refreshPizzas)
+    $(document).on('change', '#menu .card input', refreshPizzas)
+
+    function getDishCard(data, index){
+        return cardTpl.
+            replaceAll('__TIITLE__', data.title).
+            replaceAll('__KIND__', data.kind).
+            replaceAll('__INDEX__', data.kind).
+            replaceAll('__PRICE__', data.price);
+    }
+    function loadMenu(){
+        $.get('/res/data.json', data => {
+            console.log(data)
+            data.dishes.forEach((item, index) => {
+                $("#menu").append(getDishCard(item, index))
+
+            })
+        })
+    }
+
+    loadMenu();
 
 })();
