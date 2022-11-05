@@ -13,16 +13,16 @@
     '</div>';
 
     var inputsChanged = {};
-    var total_pizza = 0
+    var total_dishes = 0
 
     var resOrg = $("#result").html()
     function generateLink(args){
         text= "https://wa.me/33666951941?text="
         text += `Bonjour, Je suis "${args.name} ${args.firstname}"\n`;
-        if(!total_pizza){
+        if(!total_dishes){
                 text += `je souhaiterai vous reserver une table pour ${args.nbr} le ${args.datetime}.`
         } else {
-            text += `je souhaiterais vous commander ${total_pizza} pizza pour ${args.datetime}\n`
+            text += `je souhaiterais vous commander ${total_dishes} plat à emporter pour ${args.datetime}\n`
             text += $("#order").html().split('</li>').join('\n').replaceAll('<li>', '- ').trim()
 
         }
@@ -30,7 +30,7 @@
             text += `\n-- info supplémentaire --\n${args.info}`
         }
         text += "\n JE vous remercie de me confirmer la"
-        if(!total_pizza){
+        if(!total_dishes){
             text += "réservation."
         } else {
             text += "commande."
@@ -64,7 +64,7 @@
     }
 
     function validateOrder() {
-        return total_pizza >= 1
+        return total_dishes >= 1
 
     }
 
@@ -119,16 +119,16 @@
 
         var order = $("ul#order");
         order.html('');
-        total_pizza = 0
+        total_dishes = 0
         $('#menu .card').each( (index, elt) => {
             var num = $(elt).find('input').val()
             var name = $(elt).find('.card-title .name').text().trim()
             if (num > 0){
                 order.append(`<li>${num} X ${name}</li>`)
-                total_pizza += parseInt(num)
+                total_dishes += parseInt(num)
             }
         })
-        $('input[name=nbr]').val(total_pizza)
+        $('input[name=nbr]').val(total_dishes)
     }
 
     $(document).on('change', '#menu .card input', refreshPizzas)
@@ -142,14 +142,30 @@
     }
     function loadMenu(){
         $.get('/res/data.json', data => {
-            console.log(data)
             data.dishes.forEach((item, index) => {
                 $("#menu").append(getDishCard(item, index))
-
-            })
+            });
         })
     }
 
     loadMenu();
+
+    $("a[data-secret='m']").each((i, e) => {
+        $this = $(e)
+        var type = $this.attr('data-secret');
+        var value = atob($this.attr('value') + "=".repeat(parseInt($this.attr('data-mode') || 0)));
+        var textenc = $this.attr('text')
+        var text = null;
+        if (!textenc){
+            text = value
+        } else {
+            console.log(textenc, "=".repeat(parseInt($this.attr('data-text-mode') || 0)))
+            text = atob(textenc + "=".repeat(parseInt($this.attr('data-text-mode') || 0)))
+        }
+        $this.text(text)
+        $this.attr("href", "mailto:" + value)
+        console.log(this, $this, value, type)
+
+    })
 
 })();
