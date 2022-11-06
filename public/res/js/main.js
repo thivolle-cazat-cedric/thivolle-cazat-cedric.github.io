@@ -163,9 +163,24 @@
         } else {
             text = atob(textenc + "=".repeat(parseInt($this.attr('data-text-mode') || 0)))
         }
-        $this.text(text)
-        $this.attr("href", "mailto:" + value)
+        $this.text(text);
+        $this.attr("href", "mailto:" + value);
+    })
 
+    $("a[data-secret]").each((i, e) => {
+        $this = $(e)
+        var type = $this.attr('data-secret');
+        var value = atob($this.attr('value') + "=".repeat(parseInt($this.attr('data-mode') || 0)));
+        var textenc = $this.attr('text')
+        var text = null;
+        if (!textenc){
+            text = value
+        } else {
+            text = atob(textenc + "=".repeat(parseInt($this.attr('data-text-mode') || 0)))
+        }
+        $this.text(text);
+        var pref = type == "m" ? "mailto" : "tel"
+        $this.attr("href", pref + ":" + value);
     })
 
 })();
